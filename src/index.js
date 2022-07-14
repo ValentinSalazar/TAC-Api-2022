@@ -18,7 +18,7 @@ app.listen(port, () => {
 
 // Routes
 app.get('/', (req, res) => {
-    res.send('Welcome to my API.')
+    res.send(userRoutes)
 })
 
 // mongodb connection
