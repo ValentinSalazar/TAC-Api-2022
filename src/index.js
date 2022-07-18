@@ -1,13 +1,17 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const userRoutes = require('./routes/user.js')
 require('dotenv').config();
 
 
 const app = express()
-const port = process.env.PORT.toString() || 8000;
+app.use(cors())
+const port = process.env.PORT || 8000;
 
-// Middlewares
+
+
+// Middlewares 
 app.use(express.json())
 app.use('/api', userRoutes)
 
@@ -18,8 +22,7 @@ app.listen(port, () => {
 
 // Routes
 app.get('/', (req, res) => {
-    res.send('Welcome to my API.')
-    res.send(`<h1>HOLA</h2>`)
+    res.send('Bienvenidos a la API de TAC BCyL.')
 })
 
 // mongodb connection
