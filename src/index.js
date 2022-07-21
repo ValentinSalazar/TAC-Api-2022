@@ -24,9 +24,6 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
     res.send('Bienvenidos a la API de TAC BCyL.')
 })
-app.get('/api/registers', (req, res) => {
-    res.send('HOLA bienvenido al apartado de registros.')
-})
 
 // mongodb connection
 mongoose
