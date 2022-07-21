@@ -2,6 +2,7 @@
 const express = require('express')
 const registerSchema = require('../models/registerSchema.js')
 const router = express.Router()
+const router2 = express.Router()
 
 /** POST Method */
 router.post('/registers', (req, res) => {
@@ -16,14 +17,9 @@ router.post('/registers', (req, res) => {
     console.log();
 })
 
-router.post('/priorities', (req, res) => {
+router2.post('/priorities', (req, res) => {
     // Create a priority register
-    const registro = registerSchema(req.body)
-    registro
-        .save()
-        .then(data => res.json(data))
-        .catch(err => res.json({ message: err }))
-    console.log('Registro prioritario recibido y enviado a la base de datos.', registro);
+    console.log('Entrando al apartado de Prioritarios.');
 })
 
 
@@ -45,7 +41,7 @@ router.get('/registers', (req, res) => {
 })
 
 
-router.get('/priorities', (req, res) => {
+router2.get('/priorities', (req, res) => {
     // Get priorities registers.
     registerSchema
         .find()
@@ -65,4 +61,4 @@ router.delete('/registers', (req, res) => {
 })
 
 
-module.exports = router;
+module.exports = router, router2
