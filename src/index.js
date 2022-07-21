@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const mongo = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
 const cors = require('cors')
-const userRoutes = require('./routes/register.js')
+const registerRoute = require('./routes/register.js')
+const prioritariesRoute = require('./routes/prioritaries')
 require('dotenv').config();
 
 // Data base
@@ -18,7 +19,8 @@ const port = process.env.PORT || 8000;
 
 // Middlewares 
 app.use(express.json())
-app.use('/api', userRoutes )
+app.use('/api', registerRoute )
+app.use('/api', prioritariesRoute)
 
 app.listen(port, () => {
     console.log('Iniciando servidor en puerto:', port)
@@ -29,6 +31,7 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
     res.send('Bienvenidos a la API de TAC BCyL.')
 })
+
 
 // mongodb connection
 mongoose
