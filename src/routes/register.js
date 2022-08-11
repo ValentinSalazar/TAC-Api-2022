@@ -3,44 +3,92 @@ const express = require('express')
 const registerSchema = require('../models/registerSchema.js')
 const router = express.Router()
 
+
+// ----------------------------------------------------------------------- //
 /** POST Method */
-router.post('/registers', (req, res) => {
-    // Create register
-    const registro = registerSchema(req.body)
-    registro
-        .save()
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }))
-    console.log('Registro recibido y enviado a la base de Datos.');
-    console.log('Nota agregada:', registro.nota);
-    console.log();
-})
-
-
-
-/** GET Method */
-router.get('/registers', (req, res) => {
-    // Get all registers.
-    registerSchema
-        .find()
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }))
-    console.log('Recargando la pagina de inicio..');
-    setTimeout(function () {
-        console.log('Enviando registros generales al cliente..');
-        setTimeout(function() {
-            console.log('Registros enviados.');
-        }, 1000)
-    }, 2000)
+router.post("/registers", async (req, res) => {
+    const register = new registerSchema(req.body)
+    await register.save()
+    res.send(register)
+    console.log('-------------------------------');
+    console.log(`Agregando un nuevo registro con la nota: ${register.nota}`);
 })
 
 
 
 
-/** DELETE Method */
-router.delete('/registers', (req, res) => {
-    // Delete a register.
-    console.log(req.params.id);
+// ----------------------------------------------------------------------- //
+/** UPDATE Method */
+router.patch("/registers/:id", async (req, res) => {
+    try {
+        const register = await registerSchema.findOne({ _id: req.params.id })
+
+        if (req.body.title) {
+            register.title = register.body.title
+        }
+
+        if (req.body.content) {
+            register.content = req.body.content
+        }
+
+        await register.save()
+        res.send(register)
+    } catch {
+        res.status(404)
+        res.send({ error: "El registro que esta intentando buscar no existe." })
+    }
+})
+
+
+// ----------------------------------------------------------------------- //
+// /** GET Method */
+router.get("/registers", async (req, res) => {
+    const registers = await registerSchema.find().sort({ nota: 1 })
+    res.send(registers)
+    console.log('- Registros generales enviados.');
+})
+
+
+/** GET ONE Method */
+router.get("/registers/:id", async (req, res) => {
+    try {
+        console.log(req.params.id);
+        const registers = await registerSchema.findOne({ _id: req.params.id })
+        res.send(registers)
+        console.log(`- Registro con ID: ${req.params.id} enviado.`);
+    } catch {
+        res.status(404)
+        res.send({ error: "GET ONE Method: El registro que esta buscando no existe." })
+    }
+})
+
+/**GET SEARCHED Method */
+router.get("/registers/:title", async (req, res) => {
+    try {
+        const title = req.params.title
+        const registers = await registerSchema.find({title: req.body.nota})
+        res.send(registers)
+    }
+    catch {
+        res.status(404)
+        res.send({error: "GET SEARCH Method: El registro que esta buscando no existe."})
+    }
+})
+
+
+// ----------------------------------------------------------------------- //
+/** DELETE ONE Method */
+router.delete("/registers/:userId", async (req, res) => {
+	try {
+		await registerSchema.deleteOne({ _id: req.params.id })
+		res.status(204).send()
+
+        console.log(req.params.id);
+        console.log(`- Registro con ID: ${req.params.id} eliminado.`);
+	} catch {
+		res.status(404)
+		res.send({ error: "Post doesn't exist!" })
+	}
 })
 
 

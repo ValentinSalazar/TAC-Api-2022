@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const registerSchema = mongoose.Schema({
     nota: {
         type: Number,
-        default: 'Empty'
+        default: 'Empty',
+        unique: true
     },
     fecha: {
         type: String,
@@ -27,4 +28,4 @@ const registerSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Registro', registerSchema)
+module.exports = mongoose.model('Registro', registerSchema, 'Registros Generales')
