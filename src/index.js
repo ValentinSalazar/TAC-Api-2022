@@ -34,9 +34,9 @@ app.get('/', (req, res) => {
 
 
 // mongodb connection
-// mongoose
-//     .connect(process.env.MONGO_URI)
-//     .then(() => { console.log('Connected to MongoDB Atlas.') })
-//     .catch((error) => console.error(error));
+mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => { console.log('Connected to MongoDB Atlas.') })
+    .catch((error) => console.error(error));
 
 
