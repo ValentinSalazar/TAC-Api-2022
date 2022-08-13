@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const registerSchema = mongoose.Schema({
+const prioritySchema = mongoose.Schema({
   nota: {
     type: Number,
     default: "Empty",
@@ -31,7 +31,7 @@ const registerSchema = mongoose.Schema({
   });
 
 module.exports = mongoose.model(
-  "Registro",
-  registerSchema,
-  "Registros Generales"
+  "Prioritario",
+  prioritySchema,
+  "Prioritarios"
 );

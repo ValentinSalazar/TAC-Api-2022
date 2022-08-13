@@ -1,22 +1,27 @@
-const express = require('express')
-const registerSchema = require('../models/registerSchema.js')
-const router2 = express.Router()
+const express = require("express");
+const prioritySchema = require("../models/prioritySchema.js");
+const router2 = express.Router();
 
-router2.post('/priorities', (req, res) => {
-    // Create a priority register
-    console.log('Entrando al apartado de Prioritarios.');
-})
+router2.post("/priorities", async (req, res) => {
+  try {
+    console.log("Entrando en la seccion de prioritarios.");
+    console.log(req.body);
+    const priority = new prioritySchema(req.body);
+    await priority.save();
+    res.send(priority);
+    console.log("-------------------------------");
+    console.log(`Agregando un nuevo registro al apartado de Prioritarios con la nota: ${priority.nota}`);
+  } 
+  catch(error){
+    res.send(error)
+  }
+});
 
-router2.get('/priorities', (req, res) => {
-    // Get priorities registers.
-    registerSchema
-        .find()
-        .then(data => res.json(data))
-        .catch(err => res.json({ message: error }))
-        console.log('Enviando registros prioritarios al cliente..');
-    setTimeout(function () {
-        console.log('Registros prioritarios enviados.');
-    }, 2000)
-})
+router2.get("/priorities", async (req, res) => {
+  const priority = await prioritySchema.find().sort({ nota: 1 });
+  res.send(priority);
+  console.log("-------------------------------");
+  console.log("- Registros Prioritarios enviados.");
+});
 
-module.exports = router2
+module.exports = router2;

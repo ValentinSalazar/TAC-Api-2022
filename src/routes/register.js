@@ -6,11 +6,15 @@ const router = express.Router();
 // ----------------------------------------------------------------------- //
 /** POST Method */
 router.post("/registers", async (req, res) => {
-  const register = new registerSchema(req.body);
-  await register.save();
-  res.send(register);
-  console.log("-------------------------------");
-  console.log(`Agregando un nuevo registro con la nota: ${register.nota}`);
+  try {
+    const register = new registerSchema(req.body);
+    await register.save();
+    res.send(register);
+    console.log("-------------------------------");
+    console.log(`Agregando un nuevo registro con la nota: ${register.nota}`);
+  } catch {
+    
+  }
 });
 
 // ----------------------------------------------------------------------- //
@@ -78,7 +82,6 @@ router.delete("/registers/:id", async (req, res) => {
     await registerSchema.deleteOne({ _id: req.params.id });
     res.status(204).send();
 
-    
     console.log(`- Registro con ID: ${req.params.id} eliminado.`);
   } catch {
     res.status(404);
