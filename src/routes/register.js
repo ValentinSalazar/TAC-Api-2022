@@ -12,8 +12,9 @@ router.post("/registers", async (req, res) => {
     res.send(register);
     console.log("-------------------------------");
     console.log(`Agregando un nuevo registro con la nota: ${register.nota}`);
-  } catch {
-    
+  } catch(error) {
+    console.log('Error: Intentando agregar una nota que ya se encuentra en la base de datos.');
+    console.log(res);
   }
 });
 
