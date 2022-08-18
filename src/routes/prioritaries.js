@@ -2,6 +2,7 @@ const express = require("express");
 const prioritySchema = require("../models/prioritySchema.js");
 const router2 = express.Router();
 
+/* POST METHOD*/ 
 router2.post("/priorities", async (req, res) => {
   try {
     console.log("Entrando en la seccion de prioritarios.");
@@ -17,12 +18,20 @@ router2.post("/priorities", async (req, res) => {
   }
 });
 
+/* GET METHODs */
 router2.get("/priorities", async (req, res) => {
   const priority = await prioritySchema.find().sort({ updatedAt: 1 });
   res.send(priority);
   console.log("-------------------------------");
   console.log("- Registros Prioritarios enviados.");
 });
+
+router2.get("/priorities/:id", async(req, res) => {
+  const priority = await prioritySchema.find({ _id: req.params.id})
+  res.send(priority)
+  console.log("-------------------------------");
+  console.log(`- Registro Prioritario con el ID: ${req.params.id} enviado.`);
+})
 
 /*  DELETE METHOD    */
 router2.delete("/priorities/:id", async (req, res) => {
