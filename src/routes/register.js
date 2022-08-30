@@ -33,28 +33,18 @@ router.post("/registers", async (req, res) => {
 /** UPDATE Method */
 router.patch("/registers/:id", async (req, res) => {
   try {
-    const register = await registerSchema.findOne({ _id: req.params.id });
-
-    if (req.body.title) {
-      register.title = register.body.title;
-    }
-
-    if (req.body.content) {
-      register.content = req.body.content;
-    }
-
-    await register.save();
-    res.send(register);
+    const id = req.params.id
+    const register = await registerSchema.findByIdAndUpdate( {_id: id}, {$set: req.body})
+    console.log(`- Registro con la nota: ${req.body.nota} actualizado.`)
   } catch {
-    res.status(404);
-    res.send({ error: "El registro que esta intentando buscar no existe." });
+
   }
 });
 
 // ----------------------------------------------------------------------- //
 // /** GET Method */
 router.get("/registers", async (req, res) => {
-  const registers = await registerSchema.find().sort({ nota: 1 });
+  const registers = await registerSchema.find().sort({ updatedAt: -1 });
   res.send(registers);
   console.log("- Registros Generales enviados.");
 });

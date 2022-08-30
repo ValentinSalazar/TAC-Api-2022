@@ -5,6 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 const cors = require('cors')
 const registerRoute = require('./routes/register.js')
 const prioritariesRoute = require('./routes/prioritaries')
+const finalizadosRoute = require('./routes/finalizados.js')
 require('dotenv').config();
 
 // Data base collections
@@ -15,11 +16,11 @@ const app = express()
 app.use(cors())
 const port = process.env.PORT || 1337;
 
-
+routes = [registerRoute, prioritariesRoute, finalizadosRoute]
 
 // Middlewares 
 app.use(express.json())
-app.use('/api', registerRoute, prioritariesRoute)
+app.use('/api', routes )
 
 app.listen(port, () => {
     console.log("------------------------------------");
