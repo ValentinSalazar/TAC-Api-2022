@@ -5,14 +5,7 @@ const router = express.Router();
 
 
 // Funciones
-function isObjEmpty(obj) {
-  for (var prop in obj) {
-    if (obj.hasOwnProperty(prop)) return false;
-  }
-
-  return true;
-}
-
+const isObjEmpty = require('../helpers/functions')
 
 // ----------------------------------------------------------------------- //
 /** POST Method */
@@ -22,31 +15,39 @@ router.post("/registers", async (req, res) => {
     await register.save();
     res.send(register);
     console.log("-------------------------------");
-    console.log(`Agregando un nuevo registro con la nota: ${register.nota}`);
+    console.log(`Agregando un nuevo registro con la nota: ${register.nota} \n`);
   } catch (error) {
     console.log(error)
     console.log('Error: Intentando agregar una nota que ya se encuentra en la base de datos.');
   }
 });
 
+
+
 // ----------------------------------------------------------------------- //
 /** UPDATE Method */
 router.patch("/registers/:id", async (req, res) => {
   try {
     const id = req.params.id
-    const register = await registerSchema.findByIdAndUpdate( {_id: id}, {$set: req.body})
-    console.log(`- Registro con la nota: ${req.body.nota} actualizado.`)
-  } catch {
-
+    const register = await registerSchema.findByIdAndUpdate({ _id: id }, { $set: req.body })
+    if (req.body.nota === undefined) {
+      console.log('- Link actualizado correctamente. \n');
+    } else {
+      console.log(`- Registro con la nota: ${req.body.nota} actualizado. \n`)
+    }
+  } catch (err){
+    console.log(err);
   }
 });
+
+
 
 // ----------------------------------------------------------------------- //
 // /** GET Method */
 router.get("/registers", async (req, res) => {
   const registers = await registerSchema.find().sort({ updatedAt: -1 });
   res.send(registers);
-  console.log("- Registros Generales enviados.");
+  console.log("- Registros Generales enviados. \n");
 });
 
 /** GET ONE Method */
@@ -62,6 +63,8 @@ router.get("/registers", async (req, res) => {
 //     });
 //   }
 // });
+
+
 
 /**GET SEARCHED Method */
 router.get("/registers/:title", async (req, res) => {
@@ -88,6 +91,7 @@ router.get("/registers/:title", async (req, res) => {
 });
 
 
+
 // ----------------------------------------------------------------------- //
 /** DELETE ONE (byID) Method */
 router.delete("/registers/:id", async (req, res) => {
@@ -95,7 +99,7 @@ router.delete("/registers/:id", async (req, res) => {
     await registerSchema.deleteOne({ _id: req.params.id });
     res.status(204).send();
 
-    console.log(`- Registro con ID: ${req.params.id} eliminado.`);
+    console.log(`- Registro con ID: ${req.params.id} eliminado de Generales. \n`);
   } catch {
     res.status(404);
     res.send({ error: "El registro no existe." });

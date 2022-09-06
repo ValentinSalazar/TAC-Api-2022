@@ -5,7 +5,7 @@ const router3 = express.Router();
 /* POST Method */
 router3.post('/finalizados', async (req, res) => {
     try {
-        console.log(req.body.nota)
+        console.log(`Registro con Nota: ${req.body.nota} enviada a Finalizados.`)
         finalizado = new finalizadoSchema(req.body)
         await finalizado.save()
         res.send(finalizado)

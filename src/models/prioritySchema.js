@@ -25,7 +25,12 @@ const prioritySchema = mongoose.Schema({
   estadoForm: {
     type: String,
     default: "Empty",
-  }}, 
+  },
+  link: {
+    type: String,
+    default: "No hay link almacenado"
+  }
+},
   {
     timestamps: true
   });
