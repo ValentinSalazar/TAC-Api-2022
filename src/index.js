@@ -6,6 +6,7 @@ const cors = require('cors')
 const registerRoute = require('./routes/register.js')
 const prioritariesRoute = require('./routes/prioritaries')
 const finalizadosRoute = require('./routes/finalizados.js')
+const userRoute = require('./routes/user.js')
 require('dotenv').config();
 
 // Data base collections
@@ -16,7 +17,7 @@ const app = express()
 app.use(cors())
 const port = process.env.PORT || 1337;
 
-routes = [registerRoute, prioritariesRoute, finalizadosRoute]
+routes = [registerRoute, prioritariesRoute, finalizadosRoute, userRoute]
 
 // Middlewares 
 app.use(express.json())
