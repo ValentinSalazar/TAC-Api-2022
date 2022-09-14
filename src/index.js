@@ -24,8 +24,9 @@ app.use(express.json())
 app.use('/api', routes )
 
 app.listen(port, () => {
-    console.log("------------------------------------");
+    
     console.log('Iniciando servidor en puerto:', port)
+    console.log("------------------------------------");
 })
 
 
@@ -36,12 +37,13 @@ app.get('/', (req, res) => {
 
 
 // mongodb connection
-mongoose
-    .connect(process.env.MONGO_URI)
-    .then(() => { 
-        console.log('Connected to MongoDB Atlas.')
-        console.log("------------------------------------");
-    })
-    .catch((error) => console.error(error));
+try {
+    console.log("------------------------------------");
+    mongoose.connect(process.env.MONGO_URI)
+    console.log('Connected to MongoDB Atlas.')
+    
+} catch {
+    console.error(error)
+}
 
 
