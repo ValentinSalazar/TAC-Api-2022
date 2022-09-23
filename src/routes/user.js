@@ -26,7 +26,7 @@ routerUser.post("/user/create", async (req, res) => {
       const savedUser = await newUser.save();
       console.log(savedUser);
 
-      return res.status(201).json({mensaje: 'Se ha registrado correctamente.'})
+      return res.status(201).json({ mensaje: 'Se ha registrado correctamente.' })
     }
   } catch (err) {
     console.log(err);
@@ -37,17 +37,28 @@ routerUser.post("/user/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // const userFound = await userSchema.findOne({ email: req.body.email });
-
     const user = await userSchema.findOne({ email });
-    console.log(user);
-    const passwordCorrect =
-      user === null ? false : await bcrypt.compare(password, user.password);
+
+    const passwordCorrect = user === null 
+      ? false 
+      : await bcrypt.compare(password, user.password);
 
     if (!passwordCorrect) {
-      res.status(401).json({
+      return res.status(401).json({
         error: "Usuario o contrasenia invalido.",
       });
+    } else {
+
+      const userForToken = {
+        id: req.body._id,
+        name: user.name
+      }
+      
+      const token = jwt.sign({userForToken}, process.env.KEY, { expiresIn: 43200})
+      console.log(token);
+
+      return res.status(200).json({token})
+
     }
   } catch (err) {
     console.log(err);
