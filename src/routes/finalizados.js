@@ -6,9 +6,9 @@ const router3 = express.Router();
 router3.post('/finalizados', async (req, res) => {
     try {
         console.log(`Registro con Nota: ${req.body.nota} enviada a Finalizados.`)
-        finalizado = new finalizadoSchema(req.body)
+        const finalizado = new finalizadoSchema(req.body)
         await finalizado.save()
-        res.send(finalizado)
+        res.status(201).send(finalizado)
     }
     catch (err) {
         console.log(err);

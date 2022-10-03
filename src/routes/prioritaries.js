@@ -1,17 +1,25 @@
 const express = require("express");
 const prioritySchema = require("../models/prioritySchema.js");
+const registerSchema = require("../models/registerSchema.js");
 const router2 = express.Router();
 
-/* POST METHOD*/ 
+/* POST METHOD*/
 router2.post("/priorities", async (req, res) => {
   try {
-    console.log("Entrando en la seccion de prioritarios.");
-    console.log(req.body);
-    const priority = new prioritySchema(req.body);
-    await priority.save();
-    res.send(priority);
-    console.log("-------------------------------");
-    console.log(`Agregando un nuevo registro al apartado de Prioritarios con la nota: ${priority.nota}`);
+    const nota = req.body.nota
+    const validarNota = await prioritySchema.findOne({ nota })
+    if (validarNota !== null) {
+      return res.status(409).send({ message: 'El Numero de Nota ya se encuentra en Prioritarios.' })
+    } else {
+      console.log("Entrando en la seccion de prioritarios.");
+      console.log(req.body);
+      const priority = new prioritySchema(req.body);
+      await priority.save();
+      res.send(priority);
+      console.log("-------------------------------");
+      console.log(`Agregando un nuevo registro al apartado de Prioritarios con la nota: ${priority.nota}`);
+    }
+
   }
   catch (error) {
     res.send(error)
@@ -26,8 +34,8 @@ router2.get("/priorities", async (req, res) => {
   console.log("- Registros Prioritarios enviados.");
 });
 
-router2.get("/priorities/:id", async(req, res) => {
-  const priority = await prioritySchema.find({ _id: req.params.id})
+router2.get("/priorities/:id", async (req, res) => {
+  const priority = await prioritySchema.find({ _id: req.params.id })
   res.send(priority)
   console.log("-------------------------------");
   console.log(`- Registro Prioritario con el ID: ${req.params.id} enviado.`);

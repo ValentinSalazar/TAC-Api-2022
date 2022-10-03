@@ -13,15 +13,15 @@ router.post("/registers", async (req, res) => {
     const nota = req.body.nota
     const validarNota = await registerSchema.findOne({ nota })
     if (validarNota !== null) {
-      res.status(409).send({ message: 'Ese numero de nota, ya se encuentra en la base de datos.'})
+      res.status(409).send({ message: 'Ese numero de nota, ya se encuentra en la base de datos.' })
     } else {
       const register = new registerSchema(req.body);
       await register.save();
-      res.send(register);
+      res.status(201).send(register);
       console.log("-------------------------------");
       console.log(`Agregando un nuevo registro con la nota: ${register.nota} \n`);
     }
-    
+
   } catch (error) {
     console.log(error);
   }
@@ -49,46 +49,30 @@ router.patch("/registers/:id", async (req, res) => {
 // ----------------------------------------------------------------------- //
 // /** GET Method */
 router.get("/registers", async (req, res) => {
-  const registers = await registerSchema.find().sort({ updatedAt: -1 });
-  res.send(registers);
-  console.log("- Registros Generales enviados. \n");
+  try {
+    const registers = await registerSchema.find().sort({ updatedAt: -1 });
+    res.send(registers);
+    console.log("- Registros Generales enviados. \n");
+  } catch (err) {
+    console.log(err);
+  }
+
 });
 
 /** GET ONE Method */
-// router.get("/registers/:id", async (req, res) => {
-//   try {
-//     const registers = await registerSchema.findOne({ _id: req.params.id });
-//     res.send(registers);
-//     console.log(`- Registro con ID: ${req.params.id} enviado.`);
-//   } catch {
-//     res.status(404);
-//     res.send({
-//       error: "GET ONE Method: El registro que esta buscando no existe.",
-//     });
-//   }
-// });
-
-/**GET SEARCHED Method */
-router.get("/registers/:title", async (req, res) => {
+router.get("/registers/:id", async (req, res) => {
   try {
-    const title = req.params.title;
-    console.log("- Ingresando a GET by SEARCH");
-    const registers = await registerSchema.find({
-      $or: [{ nota: title }],
-    });
-    // Verifico que el registro no este vacio.
-    if (isObjEmpty(registers)) {
-      res.send({ error: "No existe el registro que esta buscando." });
-      console.log("  No se encontro el registro que esta buscando el usuario.");
-    } else {
-      res.send(registers);
-      console.log(`- Registro con la Busqueda: ${title}, enviado.`);
-    }
-  } catch (error) {
+    const registers = await registerSchema.findOne({ _id: req.params.id });
+    res.send(registers);
+    console.log(`- Registro con ID: ${req.params.id} enviado.`);
+  } catch {
     res.status(404);
-    console.log(error);
+    res.send({
+      error: "GET ONE Method: El registro que esta buscando no existe.",
+    });
   }
 });
+
 
 // ----------------------------------------------------------------------- //
 /** DELETE ONE (byID) Method */
