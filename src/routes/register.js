@@ -10,11 +10,18 @@ const isObjEmpty = require("../helpers/functions");
 /** POST Method */
 router.post("/registers", async (req, res) => {
   try {
-    const register = new registerSchema(req.body);
-    await register.save();
-    res.send(register);
-    console.log("-------------------------------");
-    console.log(`Agregando un nuevo registro con la nota: ${register.nota} \n`);
+    const nota = req.body.nota
+    const validarNota = await registerSchema.findOne({ nota })
+    if (validarNota !== null) {
+      res.status(409).send({ message: 'Ese numero de nota, ya se encuentra en la base de datos.'})
+    } else {
+      const register = new registerSchema(req.body);
+      await register.save();
+      res.send(register);
+      console.log("-------------------------------");
+      console.log(`Agregando un nuevo registro con la nota: ${register.nota} \n`);
+    }
+    
   } catch (error) {
     console.log(error);
   }
