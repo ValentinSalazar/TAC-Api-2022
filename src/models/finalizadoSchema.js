@@ -5,7 +5,6 @@ const finalizadoSchema = mongoose.Schema({
   nota: {
     type: Number,
     default: "Empty",
-    unique: true,
   },
   fecha: {
     type: String,

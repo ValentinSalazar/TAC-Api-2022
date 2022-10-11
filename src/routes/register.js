@@ -36,11 +36,8 @@ router.patch("/registers/:id", async (req, res) => {
       { _id: id },
       { $set: req.body }
     );
-    if (req.body.nota === undefined) {
-      console.log("- Link actualizado correctamente. \n");
-    } else {
-      console.log(`- Registro con la nota: ${req.body.nota} actualizado. \n`);
-    }
+    
+    console.log(`Se ha actualizado el link de la nota ${register.nota}.`);
   } catch (err) {
     console.log(err);
   }
@@ -79,7 +76,7 @@ router.get("/registers/:id", async (req, res) => {
 router.delete("/registers/:id", async (req, res) => {
   try {
     await registerSchema.deleteOne({ _id: req.params.id });
-    res.status(204).send();
+    res.status(200).send();
 
     console.log(
       `- Registro con ID: ${req.params.id} eliminado de Generales. \n`

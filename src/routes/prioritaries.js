@@ -1,6 +1,5 @@
 const express = require("express");
 const prioritySchema = require("../models/prioritySchema.js");
-const registerSchema = require("../models/registerSchema.js");
 const router2 = express.Router();
 
 /* POST METHOD*/
@@ -39,6 +38,22 @@ router2.get("/priorities/:id", async (req, res) => {
   res.send(priority)
   console.log("-------------------------------");
   console.log(`- Registro Prioritario con el ID: ${req.params.id} enviado.`);
+})
+
+/* PATCH METHOD */
+router2.patch('/priorities/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const nota = await prioritySchema.findOne({_id: id})
+    const modifyNota = await prioritySchema.findByIdAndUpdate(
+      { _id: id }, { $set: req.body }
+    )
+    console.log(`- Se ha actualizado el link de la nota ${modifyNota.nota}.`);
+
+    
+  } catch (err) {
+    console.log(err);
+  }
 })
 
 /*  DELETE METHOD    */
