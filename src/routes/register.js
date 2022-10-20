@@ -63,10 +63,7 @@ router.get("/registers/:id", async (req, res) => {
     res.send(registers);
     console.log(`- Registro con ID: ${req.params.id} enviado.`);
   } catch {
-    res.status(404);
-    res.send({
-      error: "GET ONE Method: El registro que esta buscando no existe.",
-    });
+    res.status(404).json({ error: "GET ONE Method: El registro que esta buscando no existe.", })
   }
 });
 

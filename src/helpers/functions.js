@@ -1,3 +1,14 @@
+function titleCase(cadena) {
+    let cadenaSeparada = cadena.toLowerCase().split(' ')
+    for (let i = 0; i < cadenaSeparada.length; i++) {
+        cadenaSeparada[i] = cadenaSeparada[i][0].toUpperCase() + cadenaSeparada[i].substr(1)
+    }
+    cadenaFinal = cadenaSeparada.join(' ')
+    return cadenaFinal
+}
+
+
+
 function crearDataBase(name) {
     MongoClient.connect(process.env.MONGO_URI, function (err, name) {
         if (err) throw err;
@@ -25,4 +36,4 @@ function isObjEmpty(obj) {
 
     return true;
 }
-module.exports = {isObjEmpty}
+module.exports = {isObjEmpty, titleCase}
