@@ -27,7 +27,7 @@ router2.post("/priorities", async (req, res) => {
 
 /* GET METHODs */
 router2.get("/priorities", async (req, res) => {
-  const priority = await prioritySchema.find().sort({ updatedAt: 1 });
+  const priority = await prioritySchema.find().sort({ updatedAt: -1 });
   res.send(priority);
   console.log("-------------------------------");
   console.log("- Registros Prioritarios enviados.");

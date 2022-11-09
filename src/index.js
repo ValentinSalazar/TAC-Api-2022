@@ -32,7 +32,7 @@ app.listen(port, () => {
 
 // Routes
 app.get('/', (req, res) => {
-    res.send(`'Bienvenidos a la API de TAC BCyL.'`)
+    res.send(`<h1>Bienvenidos a la API de TAC BCyL.</h1>`)
 })
 
 
