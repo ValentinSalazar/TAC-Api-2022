@@ -36,9 +36,7 @@ routerUser.post("/user/create", async (req, res) => {
 routerUser.post("/user/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await userSchema.findOne({ email });
-
     const passwordCorrect = user === null 
       ? false 
       : await bcrypt.compare(password, user.password);
@@ -48,16 +46,17 @@ routerUser.post("/user/login", async (req, res) => {
         error: "Usuario o contrasenia invalido.",
       });
     } else {
-
+      const id = req.body._id
+      const name = user.name
       const userForToken = {
-        id: req.body._id,
-        name: user.name
+        id,
+        name
       }
-      
       const token = jwt.sign({userForToken}, process.env.KEY, { expiresIn: 43200})
-      console.log(token);
-
-      return res.status(200).json({token})
+      return res.json({
+        mensaje: 'Usuario logueado.',
+        usuario: { id, name, token }
+      })
 
     }
   } catch (err) {

@@ -29,7 +29,6 @@ app.listen(port, () => {
     console.log("------------------------------------");
 })
 
-
 // Routes
 app.get('/', (req, res) => {
     res.send(`<h1>Bienvenidos a la API de TAC BCyL.</h1>`)
