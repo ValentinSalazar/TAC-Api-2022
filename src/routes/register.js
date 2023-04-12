@@ -49,19 +49,20 @@ router.patch("/registers/:id", async (req, res) => {
 // ----------------------------------------------------------------------- //
 // /** GET Method */
 router.get("/registers", async (req, res) => {
-  const tokenRecibido = req.headers["token"]
-  if (tokenRecibido) {
-    jwt.verify(tokenRecibido,process.env.KEY, (err, data) => {
-      if(err) return res.status(400).json({mensaje: 'tokek invalido'})
-      else { req.user = data}
-    })
-  } else {
-    res.status(400).json({ mensaje: 'Debes enviar un token.'})
-  }
+  // const tokenRecibido = req.headers["token"]
+  // if (tokenRecibido) {
+  //   jwt.verify(tokenRecibido,process.env.KEY, (err, data) => {
+  //     if(err) return res.status(400).json({mensaje: 'tokek invalido'})
+  //     else { req.user = data}
+  //   })
+  // } else {
+  //   return res.status(400).json({ mensaje: 'Debes enviar un token.'})
+  // }
 
   const registers = await registerSchema.find().sort({ updatedAt: -1 });
-  res.send(registers);
   console.log("- Registros Generales enviados. \n");
+  return res.send(registers);
+  
 });
 
 /** GET ONE Method */

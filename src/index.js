@@ -15,7 +15,7 @@ require('dotenv').config();
 // The app.
 const app = express()
 app.use(cors())
-const port = process.env.PORT || 1337;
+const port = process.env.PORT || 8080;
 
 routes = [registerRoute, prioritariesRoute, finalizadosRoute, userRoute]
 

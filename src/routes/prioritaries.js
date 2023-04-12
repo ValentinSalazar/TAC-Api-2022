@@ -26,7 +26,7 @@ router2.post("/priorities", async (req, res) => {
 });
 
 /* GET METHODs */
-router2.get("/priorities", async (req, res) => {
+router2.get("/prioritarios", async (req, res) => {
   const priority = await prioritySchema.find().sort({ updatedAt: -1 });
   res.send(priority);
   console.log("-------------------------------");
